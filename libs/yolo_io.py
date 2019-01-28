@@ -11,6 +11,7 @@ from libs.constants import DEFAULT_ENCODING
 TXT_EXT = '.txt'
 ENCODE_METHOD = DEFAULT_ENCODING
 
+
 class YOLOWriter:
 
     def __init__(self, foldername, filename, imgSize, databaseSrc='Unknown', localImgPath=None):
@@ -51,20 +52,19 @@ class YOLOWriter:
 
     def save(self, classList=[], targetFile=None):
 
-        out_file = None #Update yolo .txt
-        out_class_file = None   #Update class list .txt
+        out_file = None  # Update yolo .txt
+        out_class_file = None  # Update class list .txt
 
         if targetFile is None:
             out_file = open(
-            self.filename + TXT_EXT, 'w', encoding=ENCODE_METHOD)
+                self.filename + TXT_EXT, 'w', encoding=ENCODE_METHOD)
             classesFile = os.path.join(os.path.dirname(os.path.abspath(self.filename)), "classes.txt")
-            out_class_file = open(classesFile, 'w')
+            out_class_file = open(classesFile, 'w', encoding=ENCODE_METHOD)
 
         else:
             out_file = codecs.open(targetFile, 'w', encoding=ENCODE_METHOD)
             classesFile = os.path.join(os.path.dirname(os.path.abspath(targetFile)), "classes.txt")
-            out_class_file = open(classesFile, 'w')
-
+            out_class_file = open(classesFile, 'w', encoding=ENCODE_METHOD)
 
         for box in self.boxlist:
             classIndex, xcen, ycen, w, h = self.BndBox2YoloLine(box, classList)
@@ -78,7 +78,6 @@ class YOLOWriter:
 
         out_class_file.close()
         out_file.close()
-
 
 
 class YoloReader:
@@ -97,13 +96,13 @@ class YoloReader:
 
         # print (filepath, self.classListPath)
 
-        classesFile = open(self.classListPath, 'r')
+        classesFile = open(self.classListPath, 'r', encoding=DEFAULT_ENCODING)
         self.classes = classesFile.read().strip('\n').split('\n')
 
         # print (self.classes)
 
         imgSize = [image.height(), image.width(),
-                      1 if image.isGrayscale() else 3]
+                   1 if image.isGrayscale() else 3]
 
         self.imgSize = imgSize
 
@@ -111,7 +110,7 @@ class YoloReader:
         # try:
         self.parseYoloFormat()
         # except:
-            # pass
+        # pass
 
     def getShapes(self):
         return self.shapes
