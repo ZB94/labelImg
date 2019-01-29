@@ -91,7 +91,7 @@ class MainWindow(QMainWindow, WindowMixin):
         settings = self.settings
 
         # Load string bundle for i18n
-        self.stringBundle = StringBundle.getBundle()
+        self.stringBundle = StringBundle.getBundle("zh-CN")
         getStr = lambda strId: self.stringBundle.getString(strId)
 
         # Save as Pascal voc xml
